@@ -157,4 +157,90 @@
 </div>
 </footer>
 </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const searchIcon = document.querySelector('.search-icon');
+    const searchInput = document.querySelector('.search-input');
+    const panelAll = document.querySelector('.panelall');
+    const panelOps = document.querySelector('.panel-ops');
+    const cartCountElement = document.createElement('span');
+    const navCart = document.querySelector('.navcart');
+    let cartCount = 0;
+
+    // Add cart count element to nav cart
+    cartCountElement.className = 'cart-count';
+    cartCountElement.style.marginLeft = '5px';
+    cartCountElement.style.fontWeight = 'bold';
+    cartCountElement.textContent = cartCount;
+    navCart.appendChild(cartCountElement);
+
+    // Search functionality
+    searchIcon.addEventListener('click', function () {
+        const searchTerm = searchInput.value;
+        displaySearchResults(searchTerm);
+    });
+
+    // Toggle panel options
+    panelAll.addEventListener('click', function () {
+        panelOps.classList.toggle('visible');
+    });
+
+    // Add to Cart functionality
+    const addToCartButtons = document.querySelectorAll('.boxcontent p');
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            cartCount++;
+            cartCountElement.textContent = cartCount;
+        });
+    });
+
+    // Smooth scroll to top
+    const backToTop = document.querySelector('.f1');
+    backToTop.addEventListener('click', function () {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // Function to display search results
+    function displaySearchResults(searchTerm) {
+        const shopSection = document.querySelector('.shopsection');
+        shopSection.innerHTML = ''; // Clear previous results
+
+        // Dummy search results
+        const results = [
+            { title: 'Health & Personal Care', image: 'health.jpg' },
+            { title: 'Customers’ Most-Loved Fashion for you', image: 'men.jpg' },
+            { title: 'Bestsellers in Women\'s Indian Clothing', image: 'women\'s_fashion.jpg' },
+            { title: 'International brands', image: 'newproduct.jpg' },
+            { title: 'Appliances for your home', image: 'homeappliances.jpg' },
+            { title: 'Revamp your home in style', image: 'home_style.jpg' },
+            { title: 'Work it Out!', image: 'workout.jpg' },
+            { title: 'Sports', image: 'sports.jpg' }
+        ];
+
+        const filteredResults = results.filter(result => result.title.toLowerCase().includes(searchTerm.toLowerCase()));
+
+        filteredResults.forEach(result => {
+            const box = document.createElement('div');
+            box.className = 'box';
+            box.innerHTML = `
+                <div class="boxcontent">
+                    <h2>${result.title}</h2>
+                    <div class="boximage" style="background-image: url('${result.image}');"></div>
+                    <p class="add-to-cart">See more</p>
+                </div>
+            `;
+            shopSection.appendChild(box);
+
+            // Add event listener to new add-to-cart buttons
+            box.querySelector('.add-to-cart').addEventListener('click', function () {
+                cartCount++;
+                cartCountElement.textContent = cartCount;
+            });
+        });
+    }
+});
+    </script>
 </html>
